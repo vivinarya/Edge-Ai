@@ -1,0 +1,14 @@
+torch>=2.2.0
+torchvision
+onnx>=1.16.0
+onnxruntime>=1.18.0
+numpy>=1.26.0
+scipy>=1.13.0
+h5py>=3.11.0
+mcap>=1.1.0
+mcap-ros2-support>=0.4.0
+openvino>=2024.1.0
+tqdm>=4.66.0
+matplotlib>=3.8.0
+scikit-learn>=1.4.0
+pandas>=2.2.0

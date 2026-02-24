@@ -1,0 +1,53 @@
+======================================================
+  Battery Health Forecasting -- Model Card
+======================================================
+
+Architecture:  AttentiveLSTM
+Parameters:    55,982
+Input shape:   (batch, seq_len=50, features=6)
+Output:        (batch, 2)  ->  [SoH, normalised_RUL]
+
+Input features (in order):
+  0  discharge_median_voltage  (V)
+  1  charge_median_voltage     (V)
+  2  discharge_capacity_Ah     (Ah)
+  3  charge_time_norm          (0-1, normalised within battery lifetime)
+  4  energy_efficiency         (discharge_Wh / charge_Wh, 0-1)
+  5  cycle_index_norm          (0-1, cycle / total_cycles)
+
+All 6 features must be scaled with scaler.pkl (StandardScaler)
+before passing to the model.
+
+Output interpretation:
+  output[:, 0]  = SoH    in [0, 1]  (State of Health)
+  output[:, 1]  = RUL_n  in [0, 1]  (Remaining Useful Life, normalised)
+
+To use (Python):
+------------------------------------------------------
+  import torch, pickle, numpy as np
+
+  # Load model
+  model  = torch.jit.load("battery_model_scripted.pt")
+  model.eval()
+
+  # Load scaler
+  with open("scaler.pkl", "rb") as f:
+      scaler = pickle.load(f)
+
+  # Prepare a sequence: numpy array (seq_len=50, 6 features)
+  raw_seq = np.array(...)            # shape (50, 6)
+  scaled  = scaler.transform(raw_seq)
+  x = torch.tensor(scaled, dtype=torch.float32).unsqueeze(0)  # (1, 50, 6)
+
+  with torch.no_grad():
+      pred   = model(x)              # (1, 2)
+      soh    = pred[0, 0].item()
+      rul_n  = pred[0, 1].item()
+
+Dataset:  XJTU Battery Dataset (55 batteries, ~27,600 charge-discharge cycles)
+Training: AttentiveLSTM (2-layer LSTM + temporal attention), Adam, CosineAnnealing
+
+Files needed:
+  battery_model_scripted.pt   -- this TorchScript model
+  scaler.pkl                  -- feature scaler (required)
+======================================================

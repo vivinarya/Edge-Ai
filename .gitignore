@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Data — large files not committed
+data/
+*.h5
+*.rosbag
+*.db3
+*.mcap
+*.bag
+
+# Model weights — large binaries
+checkpoints/best_fp32.pth
+checkpoints/best_qat.pth
+battery_model_scripted.pt
+
+# Keep these small exported files
+!export/manifest.json
+!export/xgb_classifier.json
+!checkpoints/threshold.npy
+!checkpoints/lbl_encoder.pkl
+!checkpoints/xgb_classifier.json
+
+# Scaler — small, commit it
+# scaler.pkl is committed intentionally
+
+# ONNX (large, regenerate with export.py)
+export/*.onnx
+export/*.xml
+export/*.bin
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Streamlit
+.streamlit/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
