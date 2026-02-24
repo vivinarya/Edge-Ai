@@ -10,9 +10,10 @@ import AlertBanner from './components/AlertBanner';
 import AnomalyLog from './components/AnomalyLog';
 import MLModels from './components/MLModels';
 import Docs from './components/Docs';
+import RaceRatio from './components/RaceRatio';
 import './index.css';
 
-const API = 'http://localhost:8004';
+const API = 'http://localhost:8005';
 
 // Safe default — models start unknown until status check resolves
 const INIT_DATA = {
@@ -148,6 +149,8 @@ export default function App() {
         return <AnomalyLog events={eventLog} />;
       case 'models':
         return <MLModels data={data} />;
+      case 'raceratio':
+        return <RaceRatio />;
       case 'docs':
         return <Docs />;
       default:

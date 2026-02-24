@@ -2,6 +2,7 @@ import React from 'react';
 
 const NAV = [
     { id: 'dashboard', label: 'Dashboard', icon: <IconGrid /> },
+    { id: 'raceratio', label: 'Features', icon: <IconGear /> },
     { id: 'anomaly', label: 'Anomaly Log', icon: <IconAlert /> },
     { id: 'models', label: 'ML Models', icon: <IconCpu /> },
     { id: 'docs', label: 'Docs', icon: <IconDoc /> },
