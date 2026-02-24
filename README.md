@@ -10,30 +10,30 @@ Live inference is served through a **FastAPI** backend and visualised in a **Rea
 
 ```
                         ┌─────────────────────────────────────────────┐
-                        │              SENSOR LAYER                    │
+                        │              SENSOR LAYER                   │
                         │  5 ROS2 topics · 125/60/20 Hz · 21 channels │
                         └───────────────┬─────────────────────────────┘
                                         │
                          ┌──────────────▼──────────────┐
-                         │  Preprocessing Pipeline      │
-                         │  NaN → ZOH  │  Garbage cap   │
-                         │  Min-Max normalise [0,1]      │
-                         │  Ring buffer  [32 × 21]       │
-                         └──────┬───────────────┬───────┘
+                         │  Preprocessing Pipeline     │
+                         │  NaN → ZOH  │  Garbage cap  │
+                         │  Min-Max normalise [0,1]    │
+                         │  Ring buffer  [32 × 21]     │
+                         └──────┬───────────────┬──────┘
                                 │               │
                ┌────────────────▼───┐   ┌───────▼─────────────────┐
-               │  GRU Autoencoder   │   │  AttentiveLSTM           │
-               │  Input  [32 × 21]  │   │  Input  [50 × 6]         │
-               │  Hidden  64        │   │  Output [SoH, RUL]       │
-               │  Output [32 × 21]  │   │  Dataset: XJTU Battery   │
-               │  Score = MSE[-1]   │   └──────────────────────────┘
+               │  GRU Autoencoder   │   │  AttentiveLSTM          │
+               │  Input  [32 × 21]  │   │  Input  [50 × 6]        │
+               │  Hidden  64        │   │  Output [SoH, RUL]      │
+               │  Output [32 × 21]  │   │  Dataset: XJTU Battery  │
+               │  Score = MSE[-1]   │   └─────────────────────────┘
                │  Threshold 0.011   │
                │  → XGBoost classify│
                └────────────────────┘
                                 │
                ┌────────────────▼──────────────────────────────────┐
-               │  FastAPI  /api/tick  →  React Dashboard            │
-               │  Alert gate · Anomaly log · Live gauges · Charts   │
+               │  FastAPI  /api/tick  →  React Dashboard           │
+               │  Alert gate · Anomaly log · Live gauges · Charts  │
                └───────────────────────────────────────────────────┘
 ```
 
